@@ -29,8 +29,6 @@ RUN set -x \
 	&& apk add --no-cache openjdk8="$JAVA_ALPINE_VERSION" \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
-ENV LANG C.UTF-8
-
 #COPY custom.log4j.xml /custom.log4j.xml
 RUN apk add --no-cache --virtual .build maven git\
 	&& mkdir src \
@@ -50,7 +48,5 @@ RUN apk add --no-cache --virtual .build maven git\
 
 COPY agent.json /etc/aws-kinesis/agent.json
 COPY start.sh /start.sh
-
-VOLUME ["$CONF_DIR", "$LOG_DIR"]
 
 CMD /start.sh -L $LOG_LEVEL -l /dev/stdout
